@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Aneef | One-of-One Photography</title>
+    <meta name="description" content="A curated glimpse into the world of One-of-One photography. Exclusive prints and automotive art by Aneef.">
+    <meta name="theme-color" content="#0a0e17">
+    
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Aneef | One-of-One Photography">
+    <meta property="og:description" content="Too real to stay inside the frame. Experience the exclusive collection.">
+    <meta property="og:image" content="https://lh3.googleusercontent.com/aida-public/AB6AXuAqW7OYXT_LQpyO6G4-eLTqgaEsMwDCzwGchuRLvBqmsb_b2U_alXnzYiUvDnYxsDnA_dyc14Ih1cUzN5kPxe5T8GTulcx78iHqNFtlAYvF0AE3q2C_ZwyAzlEl_bJW8SyfworGzXU3chyx47H7_b8R8ng6L4XetzDJbE3-i7Kse04IB9b2rtuxfnGCjyKm-ALW524PKh2tVpUNl0g5Ce1eD91EyQLk0pgoWeiSaUIcM4Sgwv62zUMxF4Xsfh-BwRdCKfe5xNSgYly-">
+    
+    <!-- External Dependencies -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio"></script>
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <!-- Typography & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Manrope:wght@200;300;400;500;600;700&family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        'midnight': '#0a0e17',
+                        'rose-gold': '#cfa986',
+                        'cool-grey': '#8b9bb4',
+                        'leather-navy': '#16243d'
+                    },
+                    fontFamily: {
+                        serif: ['Playfair Display', 'serif'],
+                        sans: ['Manrope', 'sans-serif'],
+                        display: ['Cinzel', 'serif']
+                    },
+                    backgroundImage: {
+                        'noise': "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E\")",
+                        'leather': "url('https://www.transparenttextures.com/patterns/dark-leather.png')"
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #0a0e17; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .text-glow { text-shadow: 0 0 15px rgba(207, 169, 134, 0.4); }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes loading { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
+        .animate-fade-in { animation: fadeIn 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+    </style>
+<script type="importmap">
+{
+  "imports": {
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "react": "https://esm.sh/react@^19.2.3"
+  }
+}
+</script>
+</head>
+<body class="bg-midnight font-sans text-cool-grey selection:bg-rose-gold selection:text-midnight">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        // --- CONSTANTS ---
+        const GALLERY_ITEMS = [
+            {
+                id: '1',
+                title: 'The White Suit',
+                location: 'Dubai Marina',
+                specs: 'ISO 100 • f/1.8 • 1/200s',
+                image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAqW7OYXT_LQpyO6G4-eLTqgaEsMwDCzwGchuRLvBqmsb_b2U_alXnzYiUvDnYxsDnA_dyc14Ih1cUzN5kPxe5T8GTulcx78iHqNFtlAYvF0AE3q2C_ZwyAzlEl_bJW8SyfworGzXU3chyx47H7_b8R8ng6L4XetzDJbE3-i7Kse04IB9b2rtuxfnGCjyKm-ALW524PKh2tVpUNl0g5Ce1eD91EyQLk0pgoWeiSaUIcM4Sgwv62zUMxF4Xsfh-BwRdCKfe5xNSgYly-',
+                aspectRatio: 'portrait'
+            },
+            {
+                id: '2',
+                title: 'Poolside Luxury',
+                location: 'Palm Jumeirah',
+                specs: 'ISO 50 • f/4.0 • 1/1200s',
+                image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBTFJrMBxWDCYZiH3DYCOj-O0DwIDqaE5jAX8k8XPPDeoG2lKmLAAB3AFsf5Cs2-7WIL0Nucm0sO0hQJ6ECIepUmHkXyoEZYt1WlW1VCrfoSurCUYpX1OKd6_RQ4gQncugHXQvsv_r7Y_NEmlxxQsnNFx-r2d-t1ZHGjKrsbSOrcN-ovTHaLPMtmtAEOA6Uqq-JRdA9tRj0jooeSbuh3pVPeUndyfJpmByWpqilfuuIwwtPlfgdEaL3kRcoKYjT-TY0KNcYnGnpjtKP',
+                aspectRatio: 'video'
+            },
+            {
+                id: '3',
+                title: 'Porsche Neon Night',
+                location: 'Downtown Dubai',
+                specs: 'ISO 800 • f/1.4 • 1/60s',
+                image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuD9haZPBcAapOp7jf-8XH7-3ZGtmE_kuh2twwR7PnScL6OXZt5KTXskEmRint8E7g-6CKJC8scOD1Wy7evljwtA2OHGyMnaQdBub7lydwh27IBHrFNRGBGhIRgE1TQwBhbZmpnNiTP1LWZ1DYTn4N7D7lOEOIFUSKH4Y-DHrKzlRZJYwI0KkdsXX3hKD6orb6xH6GzM7Hyz91krreiW7P0bC3AMW0fT6IhmZQsnSn52eUEq9jfhOzQiPwzKiL-x9iZJgrnvHxSpk-yD',
+                aspectRatio: 'portrait'
+            }
+        ];
+
+        const SERVICES = [
+            { id: '1', number: '01', title: 'Personal Branding', subtitle: 'Digital Signature', icon: 'camera', description: 'Defining your character through precision portraiture.' },
+            { id: '2', number: '02', title: 'Automotive Art', subtitle: 'Machine and Motion', icon: 'directions_car', description: 'Showcasing the soul of the engineering masterpiece.' },
+            { id: '3', number: '03', title: 'Social Legacy', subtitle: 'Eternal Moments', icon: 'wine_bar', description: 'For milestones that deserve to be immortalized.' }
+        ];
+
+        // --- COMPONENTS ---
+        const CustomButton = ({ children, onClick, variant = 'outline', className = '', type = 'button' }) => {
+            const variants = {
+                outline: "border border-rose-gold text-rose-gold hover:bg-rose-gold hover:text-midnight shadow-[0_0_15px_rgba(207,169,134,0.1)]",
+                filled: "bg-rose-gold text-midnight border border-rose-gold hover:bg-white hover:border-white shadow-[0_0_20px_rgba(207,169,134,0.3)]"
+            };
+            return (
+                <button type={type} onClick={onClick} className={`px-8 py-3 text-[10px] font-bold tracking-[0.3em] uppercase transition-all duration-500 rounded-none relative overflow-hidden group ${variants[variant]} ${className}`}>
+                    <span className="relative z-10 flex items-center justify-center gap-3">{children}</span>
+                </button>
+            );
+        };
+
+        const Layout = ({ children }) => (
+            <div className="relative min-h-screen w-full bg-midnight selection:bg-rose-gold selection:text-midnight">
+                <div className="fixed inset-0 pointer-events-none z-0 bg-noise opacity-30 mix-blend-overlay"></div>
+                <div className="fixed inset-0 pointer-events-none z-0 bg-leather opacity-5 mix-blend-soft-light"></div>
+                <div className="fixed inset-0 pointer-events-none z-0 bg-gradient-to-b from-transparent via-midnight/40 to-midnight"></div>
+                <div className="relative z-10 w-full flex flex-col">{children}</div>
+            </div>
+        );
+
+        const Navbar = ({ currentPage, setCurrentPage }) => (
+            <header className="fixed top-0 w-full z-[100] px-6 py-6 lg:px-12 flex items-center justify-between bg-gradient-to-b from-midnight/90 to-transparent pointer-events-none">
+                <div className="flex items-center gap-4 pointer-events-auto cursor-pointer" onClick={() => setCurrentPage('home')}>
+                    <h1 className="text-white text-xl lg:text-2xl font-display font-bold tracking-[0.3em] hover:text-rose-gold transition-colors">ANEEF</h1>
+                    <span className="hidden sm:inline-block h-4 w-px bg-cool-grey/30"></span>
+                    <span className="hidden sm:block text-[10px] text-cool-grey tracking-[0.4em] uppercase font-light italic">One-of-One</span>
+                </div>
+                <nav className="flex items-center gap-8 pointer-events-auto">
+                    {['home', 'gallery', 'philosophy', 'experience', 'commission'].map((page) => (
+                        <button key={page} onClick={() => setCurrentPage(page)}
+                            className={`hidden lg:block text-[10px] tracking-[0.3em] uppercase transition-colors ${currentPage === page ? 'text-rose-gold font-bold' : 'text-cool-grey hover:text-white'}`}>
+                            {page}
+                        </button>
+                    ))}
+                    <button className="group flex items-center gap-3 text-[10px] font-bold tracking-[0.2em] text-rose-gold hover:text-white transition-colors">
+                        <span className="hidden sm:block">MENU</span>
+                        <div className="flex flex-col gap-1.5 items-end w-6">
+                            <span className="h-[1px] w-6 bg-rose-gold group-hover:bg-white transition-all"></span>
+                            <span className="h-[1px] w-4 bg-rose-gold group-hover:bg-white transition-all group-hover:w-6"></span>
+                        </div>
+                    </button>
+                </nav>
+            </header>
+        );
+
+        // --- PAGES ---
+        const Home = () => (
+            <main className="pt-32 pb-20 px-6 lg:px-24 animate-fade-in">
+                <section className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center max-w-[1400px] mx-auto">
+                    <div className="flex flex-col gap-8 order-2 lg:order-1">
+                        <div className="flex items-center gap-3 text-rose-gold/80">
+                            <span className="material-symbols-outlined text-sm">auto_awesome</span>
+                            <span className="text-[10px] font-bold tracking-[0.4em] uppercase font-bold">Luxury Collection</span>
+                        </div>
+                        <h1 className="text-4xl md:text-6xl lg:text-7xl font-serif font-light leading-tight text-white">
+                            Too real to stay <br/>
+                            <span className="font-bold text-transparent bg-clip-text bg-gradient-to-br from-rose-gold via-[#f2d0b5] to-rose-gold text-glow">inside the frame</span>
+                        </h1>
+                        <p className="text-cool-grey text-lg max-w-lg leading-relaxed font-light">
+                            Curated moments from the feed. A glimpse into the world of One-of-One photography, where every shot breaks the mold.
+                        </p>
+                        <div className="flex flex-wrap items-center gap-8 mt-4">
+                            <CustomButton variant="outline">Follow @Aneef</CustomButton>
+                            <div className="flex items-center gap-4">
+                                <div className="flex -space-x-3">
+                                    {[1, 2, 3].map(i => <div key={i} className="w-10 h-10 rounded-full border-2 border-midnight bg-cover bg-center" style={{ backgroundImage: `url('https://picsum.photos/100/100?random=${i}')` }}></div>)}
+                                </div>
+                                <span className="text-[9px] text-cool-grey/60 tracking-widest uppercase font-bold">12.5k Followers</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="relative flex justify-center items-center order-1 lg:order-2">
+                        <div className="absolute w-[80%] h-[90%] border border-rose-gold/20 translate-x-6 translate-y-6 pointer-events-none"></div>
+                        <div className="relative z-10 w-[85%] aspect-[3/4] shadow-2xl overflow-hidden group transform -rotate-2 hover:rotate-0 transition-all duration-1000">
+                             <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCOmUZcIDD6Gos-jQJnQphKA_cvQ-_nK5JfUbR8MhkqFrYYNW-JdxUdCsguMXT9QyWx6WYpHiOeqpwRowQEHlUEW7puoXQ5lX_F6npjJwvsQVSQV0mwZaeqY5qarjYwt1IP-aeeOgyeawwjdC0075TbjD5nAkYBsdTjPVwfEBNPU5kI9v9rAyFG3zEe8LWYPMCb6bJoKYg3pdTM0jrC7P6NkncZexyj80gDamiPp8NltgA1Zan7yBwb6PccxzrDn2yW-oLESB3t2XO5" className="w-full h-full object-cover grayscale-[30%] group-hover:grayscale-0 transition-all duration-700" alt="Hero" />
+                        </div>
+                    </div>
+                </section>
+                <section className="mt-40 max-w-[1400px] mx-auto">
+                    <div className="flex items-center justify-between mb-12 border-b border-white/10 pb-6">
+                        <h3 className="text-rose-gold text-[10px] font-bold tracking-[0.4em] uppercase flex items-center gap-3 italic">
+                            <span className="material-symbols-outlined text-lg">grid_on</span> Recent Negatives
+                        </h3>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+                        {[
+                            { img: "https://lh3.googleusercontent.com/aida-public/AB6AXuDsY0xb0Pv5mGjdHWPy9XoiU5mieD4GJSpIgVVxf6Gw2BAdgtwJpIWVOmrZ6Aq0JotS2EC94Vc6cSBwMOdG2GrrD7NbBZeqj1T3y8UYRWfLq7hpd5nljzChDnzvNGfhRJO27CQXSi-gPmjKWx8VduVwXetCnhAkOBIP2ci5APMSULpLbCbIR0BjXFgXXJMJQe1H_Sqe1lAafiucA1z9tgNQj0RuUDtxUz8dYlP_xDkREyAy-kGc4S3mtUkM-8BFnV9giBc4plL3D9nV", name: "KODAK PORTRA 400" },
+                            { img: "https://lh3.googleusercontent.com/aida-public/AB6AXuCDwdsqXDrK6EzRAc1v9N8VSNZ3iD0nhf24a_vY64eiFFUTCmaeSmhahLEyOYZycvldxng6RNhiwpcDArfJKSur6zSTJ7GCZnUNikwbAfDiqN-Q2Bjc1Hi2-jWDCNlXVcNMJO589IfeOuh-oLAZdk4KXqMAMaMSDW4PR9AS-jzYovYJdAAaxzPGUZiYxuYPzwQwN_vjqfx1ijxI9Bb7Q2hNavmp0NkLin4tVUATAGkd-aXqM1WDoHtnIWI50nP1peRMOybzlEzEhekf", name: "ILFORD HP5" },
+                            { img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBaOQ4HHG4jWSXhREpaxS2xBJLpXcoT6MEm4bzBcETu5eyiF1-Wv6bZ6JqdlbNLJ9yCdh-yN8mSqbT3xV5ixqYFVAchzI_-R_c4RMZ0ZN5WRHXyX50v6ETg8zpPSrI738V0Q7SAtBC4WLsxacq_WQXcPEhSkdxQ9tFtrQhOK12k6b1MruBAFVPduo_Ls2z5JxxuGWW1bDpSEr9eNscBeO8eSAHsE1T5m0uuAEoMFUhmGjhTabYUbyPswJpNE-WWy6xZ3oF-FEl9kwh8", name: "CINESTILL 800T" }
+                        ].map((neg, idx) => (
+                            <div key={idx} className="relative bg-black p-1 group cursor-pointer transition-all duration-500 hover:-translate-y-4 border border-white/5 shadow-2xl">
+                                <div className="absolute -top-4 left-0 w-full h-3 flex justify-around opacity-40">
+                                    {Array.from({length: 8}).map((_, i) => <div key={i} className="w-4 h-full bg-white/10 rounded-sm"></div>)}
+                                </div>
+                                <div className="relative overflow-hidden aspect-[4/5] border-x-[12px] border-black">
+                                    <img src={neg.img} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700" alt={neg.name} />
+                                </div>
+                                <div className="absolute bottom-6 right-0 text-[9px] font-mono text-rose-gold/70 font-bold tracking-[0.2em] rotate-90 origin-right translate-x-4 uppercase">{neg.name}</div>
+                            </div>
+                        ))}
+                    </div>
+                </section>
+            </main>
+        );
+
+        const Gallery = () => (
+            <main className="pt-32 pb-20 animate-fade-in">
+                <div className="px-6 lg:px-40 flex flex-col items-center mb-16 text-center">
+                    <h1 className="text-white text-6xl md:text-8xl font-bold text-glow">Gallery</h1>
+                    <p className="text-rose-gold mt-2 text-[10px] uppercase tracking-[0.4em] font-medium border-t border-rose-gold/30 pt-4 px-12 italic">One-of-One Showcase</p>
+                </div>
+                <div className="flex overflow-x-auto hide-scrollbar px-6 lg:px-24 gap-12 lg:gap-20 items-end pb-20">
+                    {GALLERY_ITEMS.map((item) => (
+                        <div key={item.id} className={`group relative flex-shrink-0 flex flex-col gap-6 ${item.aspectRatio === 'video' ? 'w-[85vw] lg:w-[700px]' : 'w-[80vw] lg:w-[450px]'}`}>
+                            <div className={`relative overflow-hidden border border-leather-navy group-hover:border-rose-gold transition-all duration-700 shadow-2xl ${item.aspectRatio === 'video' ? 'aspect-video' : 'aspect-[4/5]'}`}>
+                                <img src={item.image} className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700" alt={item.title} />
+                                <div className="absolute inset-0 shadow-[inset_0_0_80px_rgba(10,14,23,0.7)] pointer-events-none"></div>
+                            </div>
+                            <div className="px-2 border-l-2 border-rose-gold/20 pl-4">
+                                <h3 className="text-white text-2xl font-serif tracking-wide">{item.title}</h3>
+                                <span className="text-[9px] font-mono text-rose-gold/50 uppercase tracking-widest">{item.specs}</span>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </main>
+        );
+
+        const Philosophy = () => (
+            <main className="min-h-screen flex flex-col lg:flex-row pt-20 lg:pt-0 animate-fade-in">
+                <div className="relative w-full lg:w-1/2 h-[60vh] lg:h-screen overflow-hidden group">
+                    <video autoPlay loop muted playsInline className="w-full h-full object-cover grayscale contrast-[1.1] brightness-[0.8] opacity-80 group-hover:scale-105 transition-all duration-[4000ms]">
+                        <source src="https://github.com/Alameenkhaled/AMeen/raw/refs/heads/main/f0z62pbsynrme0cv3bnaypbk34_result_.mp4" type="video/mp4" />
+                    </video>
+                    <div className="absolute inset-0 bg-gradient-to-t lg:bg-gradient-to-r from-midnight via-midnight/30 to-transparent pointer-events-none"></div>
+                </div>
+                <div className="w-full lg:w-1/2 flex flex-col justify-center px-8 lg:px-24 py-20 bg-midnight relative overflow-hidden">
+                    <div className="max-w-xl relative z-10">
+                        <div className="flex items-center gap-6 mb-12">
+                            <span className="h-px w-16 bg-rose-gold/50"></span>
+                            <span className="text-rose-gold text-[10px] tracking-[0.4em] uppercase font-bold italic">The Vision</span>
+                        </div>
+                        <h2 className="text-5xl lg:text-7xl font-display text-white mb-12 leading-[1.1]">The Definition <br/><span className="text-rose-gold italic text-glow"> Aneef</span></h2>
+                        <p className="text-lg lg:text-xl font-light leading-relaxed text-cool-grey/80 mb-12">
+                            In an era of endless copies, <span className="text-rose-gold font-medium uppercase tracking-widest">Aneef</span> stands for the untouched. My lens does not capture moments; it creates a 'One-of-One' legacy.
+                        </p>
+                        <CustomButton variant="outline">Learn More</CustomButton>
+                    </div>
+                </div>
+            </main>
+        );
+
+        const Experience = () => (
+            <main className="pt-32 pb-20 px-6 lg:px-24 min-h-screen animate-fade-in">
+                <div className="text-center mb-24">
+                    <h1 className="text-white text-5xl md:text-7xl font-bold tracking-tight uppercase">The Experience</h1>
+                </div>
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 max-w-[1400px] mx-auto w-full">
+                    {SERVICES.map((service) => (
+                        <div key={service.id} className="group relative flex flex-col justify-between h-[600px] bg-[#111620]/50 p-12 transition-all duration-700 hover:scale-[1.02] border border-white/5 hover:border-rose-gold/30 backdrop-blur-sm overflow-hidden">
+                            <span className="text-white/10 font-bold text-7xl group-hover:text-rose-gold/20 transition-all duration-700">{service.number}</span>
+                            <div className="space-y-4">
+                                <h3 className="text-white text-3xl font-bold uppercase tracking-wide">{service.title}</h3>
+                                <p className="text-rose-gold text-[10px] font-bold tracking-[0.3em] uppercase">{service.subtitle}</p>
+                                <p className="text-cool-grey text-sm leading-relaxed">{service.description}</p>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </main>
+        );
+
+        const Commission = () => (
+            <main className="min-h-screen pt-32 pb-20 flex items-center justify-center px-6 animate-fade-in">
+                <div className="w-full max-w-[550px] flex flex-col items-center">
+                    <div className="text-center mb-20 space-y-6">
+                        <h1 className="text-white text-5xl md:text-6xl font-serif font-light tracking-tight leading-none">Commission a<br/><span className="italic font-light text-rose-gold text-4xl">Masterpiece</span></h1>
+                    </div>
+                    <form className="w-full space-y-12" onSubmit={(e) => e.preventDefault()}>
+                        <div className="group relative border-b border-white/10 pb-2">
+                            <label className="block mb-2 text-rose-gold text-[10px] tracking-[0.4em] uppercase font-bold italic">Client Name</label>
+                            <input type="text" className="w-full bg-transparent border-0 text-white text-lg py-4 px-0 focus:ring-0 placeholder-white/5 uppercase font-light" placeholder="Full Name" />
+                        </div>
+                        <div className="group relative border-b border-white/10 pb-2">
+                            <label className="block mb-2 text-rose-gold text-[10px] tracking-[0.4em] uppercase font-bold italic">The Vision</label>
+                            <textarea rows={1} className="w-full bg-transparent border-0 text-white text-lg py-4 px-0 focus:ring-0 placeholder-white/5 resize-none uppercase font-light" placeholder="Describe the scene..."></textarea>
+                        </div>
+                        <div className="pt-10">
+                            <CustomButton type="submit" variant="filled" className="w-full py-5 text-xs">Request Exclusive Session</CustomButton>
+                        </div>
+                    </form>
+                </div>
+            </main>
+        );
+
+        // --- APP ROOT ---
+        const App = () => {
+            const [currentPage, setCurrentPage] = useState('home');
+            const [isLoaded, setIsLoaded] = useState(false);
+
+            useEffect(() => {
+                const timer = setTimeout(() => setIsLoaded(true), 1500);
+                return () => clearTimeout(timer);
+            }, []);
+
+            if (!isLoaded) {
+                return (
+                    <div className="h-screen w-full bg-midnight flex flex-col items-center justify-center">
+                        <h1 className="font-display text-7xl font-bold tracking-[0.4em] text-rose-gold animate-pulse">ANEEF</h1>
+                        <div className="w-32 h-[1px] bg-rose-gold/20 mt-12 relative overflow-hidden">
+                            <div className="absolute inset-0 bg-rose-gold -translate-x-full animate-[loading_2s_infinite]"></div>
+                        </div>
+                        <div className="mt-20 text-[8px] tracking-[0.5em] text-rose-gold/30 uppercase font-bold italic">One-of-One Photography 2025</div>
+                    </div>
+                );
+            }
+
+            const renderPage = () => {
+                switch (currentPage) {
+                    case 'home': return <Home />;
+                    case 'gallery': return <Gallery />;
+                    case 'philosophy': return <Philosophy />;
+                    case 'experience': return <Experience />;
+                    case 'commission': return <Commission />;
+                    default: return <Home />;
+                }
+            };
+
+            return (
+                <Layout>
+                    <Navbar currentPage={currentPage} setCurrentPage={setCurrentPage} />
+                    <div key={currentPage}>{renderPage()}</div>
+                    <footer className="w-full bg-[#05070c] border-t border-white/5 py-16 px-6 mt-auto text-center">
+                        <p className="text-cool-grey/20 text-[8px] tracking-[0.5em] uppercase font-bold italic">© 2025 Aneef Photography. Commissioned One-of-One Legacy.</p>
+                    </footer>
+                </Layout>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
